@@ -48,7 +48,7 @@ def draw_text(text, x, y, size):
     return
 
 
-def draw_picture(image_num, x0, y0):
+def draw_weather_icon(image_num, x0, y0):
     image_path = "pictures/" + image_num + ".png"
     background = pygame.image.load(image_path)
     background.convert_alpha()
@@ -69,6 +69,7 @@ def update_time():
 def update_weather():
     result = None
     json_data = WeatherInfo.weather_info()
+    print(json_data)
 
     if json_data is None or json_data['status'] != '0':
         print("error")
@@ -104,7 +105,7 @@ def draw_weather(data, move_step):
     day_four = daily[4]  # 大后天
 
     draw_text(city, 370, 2.5, 46)
-    draw_picture("1", 30, 65)
+    draw_weather_icon(data.get('img'), 30, 65)
     draw_text(weather, 35, 110, 26)
 
     draw_text(temp + "℃", 115, 58, 36)
@@ -117,10 +118,10 @@ def draw_weather(data, move_step):
     draw_text(day_two.get('date'), 130, 175, 20)
     draw_text(day_three.get('date'), 250, 175, 20)
     draw_text(day_four.get('date'), 370, 175, 20)
-    draw_picture("1", 15, 205)
-    draw_picture("1", 135, 205)
-    draw_picture("1", 255, 205)
-    draw_picture("1", 375, 205)
+    draw_weather_icon(day_one.get('day').get('img'), 15, 205)
+    draw_weather_icon(day_two.get('day').get('img'), 135, 205)
+    draw_weather_icon(day_three.get('day').get('img'), 255, 205)
+    draw_weather_icon(day_four.get('day').get('img'), 375, 205)
 
     draw_text(day_one.get('day').get('weather'), 60, 215, 20)
     draw_text(day_one.get('night').get('templow') + "~" + day_one.get('day').get('temphigh') + "℃",
@@ -157,7 +158,7 @@ if __name__ == '__main__':
 
         draw_weather(weather_data, move)
 
-        time.sleep(1 / 60)
+        # time.sleep(1 / 60)
         pygame.display.update()
 
         # for event in pygame.event.get():
